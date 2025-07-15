@@ -44,7 +44,7 @@ def main() -> None:
     logger.info("🔧 Transport: SSE (Server-Sent Events)")
 
     try:
-        app.run(transport="sse", host="127.0.0.1", port=8000)
+        app.run()
     except KeyboardInterrupt:
         logger.info("⏹️  Server stopped by user")
     except Exception as e:
