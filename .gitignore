@@ -1,0 +1,10 @@
+# fill
+.env
+.DS_Store
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
