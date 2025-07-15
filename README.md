@@ -8,6 +8,8 @@ A book search application that provides access to the OpenLibrary API through bo
 - **Dual Server Support**: Available as both FastAPI web server and MCP server
 - **Data Validation**: Robust Pydantic models with proper validation
 - **Error Handling**: Graceful handling of incomplete API responses
+- **Comprehensive Logging**: Detailed logging for monitoring and debugging
+- **Code Quality**: Pre-commit hooks for maintaining code standards
 
 ## 📦 Installation
 
@@ -25,6 +27,9 @@ cd books_mcp
 
 # Install dependencies
 poetry install
+
+# Install pre-commit hooks
+poetry run pre-commit install
 
 # Activate virtual environment
 poetry shell
@@ -60,6 +65,9 @@ The server will be available at `http://localhost:8000`
 #### API Endpoints
 
 - `GET /search?query=<search_term>` - Search for books
+- `GET /health` - Health check endpoint
+- `GET /` - API information
+- `GET /docs` - Interactive API documentation
 
 Example:
 ```bash
@@ -78,6 +86,66 @@ Or use the installed command:
 
 ```bash
 books-mcp
+```
+
+## 🔧 Development
+
+### Pre-commit Hooks
+
+This project uses pre-commit hooks to ensure code quality and consistency. The following tools are configured:
+
+#### 🛡️ **Code Quality Tools**
+
+- **Black**: Code formatting (line length: 88)
+- **isort**: Import sorting with black compatibility
+- **Ruff**: Fast Python linter (replaces flake8)
+- **mypy**: Static type checking
+- **Bandit**: Security vulnerability scanner
+
+#### 📝 **General Checks**
+
+- **Trailing whitespace**: Automatically removes trailing spaces
+- **End of file**: Ensures files end with newline
+- **YAML/TOML validation**: Validates configuration files
+- **Large files**: Prevents committing large files
+- **Merge conflicts**: Detects merge conflict markers
+- **Debug statements**: Finds debug statements in code
+
+#### 🚀 **Running Pre-commit**
+
+```bash
+# Install hooks (run once)
+poetry run pre-commit install
+
+# Run on all files
+poetry run pre-commit run --all-files
+
+# Run on specific files
+poetry run pre-commit run --files books_mcp/models.py
+
+# Skip hooks for a commit (not recommended)
+git commit -m "message" --no-verify
+```
+
+#### ⚙️ **Tool Configuration**
+
+All tools are configured in `pyproject.toml`:
+
+```toml
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "C4", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+disallow_untyped_defs = true
 ```
 
 ## 📊 API Response Format
@@ -108,6 +176,7 @@ books_mcp/
 │   ├── mcp_server.py    # MCP server implementation
 │   ├── models.py        # Pydantic data models
 │   └── providers.py     # OpenLibrary API provider
+├── .pre-commit-config.yaml # Pre-commit configuration
 ├── pyproject.toml       # Project configuration
 ├── poetry.lock          # Dependency lock file
 ├── README.md           # This file
@@ -122,6 +191,15 @@ books_mcp/
 - **Uvicorn**: ASGI server for FastAPI
 - **HTTPX**: Async HTTP client for API calls
 - **Requests**: HTTP library for synchronous requests
+
+### Development Dependencies
+
+- **pre-commit**: Git hooks for code quality
+- **black**: Code formatter
+- **isort**: Import sorter
+- **ruff**: Fast Python linter
+- **mypy**: Static type checker
+- **bandit**: Security linter
 
 ## 🔍 Data Models
 
@@ -191,6 +269,9 @@ python -c "from books_mcp.providers import OpenLibraryProvider; print('✅ OpenL
 
 # Test models
 python -c "from books_mcp.models import BookDetails, OpenLibrary; print('✅ Models imported successfully!')"
+
+# Test pre-commit hooks
+poetry run pre-commit run --all-files
 ```
 
 ## 🤝 Contributing
@@ -198,8 +279,17 @@ python -c "from books_mcp.models import BookDetails, OpenLibrary; print('✅ Mod
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+4. Ensure pre-commit hooks pass: `poetry run pre-commit run --all-files`
+5. Add tests if applicable
+6. Submit a pull request
+
+### Code Quality Standards
+
+- **Type hints**: All functions must have proper type annotations
+- **Documentation**: Use docstrings for all public functions and classes
+- **Error handling**: Use proper exception chaining with `raise ... from e`
+- **Security**: Avoid binding to all interfaces (`0.0.0.0`) in production
+- **Logging**: Include meaningful log messages with appropriate levels
 
 ## 📝 License
 
@@ -211,6 +301,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [MCP Documentation](https://modelcontextprotocol.io/docs/)
 - [Pydantic Documentation](https://docs.pydantic.dev/)
+- [Pre-commit Documentation](https://pre-commit.com/)
 
 ## 🐛 Issues
 
@@ -219,4 +310,4 @@ If you encounter any issues, please create an issue on the GitHub repository wit
 - Description of the problem
 - Steps to reproduce
 - Expected vs actual behavior
-- Your environment details 
+- Your environment details
