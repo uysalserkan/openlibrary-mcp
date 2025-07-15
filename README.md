@@ -92,6 +92,8 @@ books-mcp
 
 This MCP server can be easily integrated with Claude Desktop to provide book search capabilities directly in your conversations with Claude.
 
+![example_usage](imgs/example1.png)
+
 ### 📋 **Prerequisites**
 
 - Claude Desktop application installed
