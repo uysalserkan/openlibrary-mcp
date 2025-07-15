@@ -1,0 +1,35 @@
+[project]
+name = "books-mcp"
+version = "0.1.0"
+description = "A simple Book search mcp server."
+authors = [
+    {name = "uysalserkan",email = "serkan.uysal@sahibinden.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "pydantic (>=2.11.7,<3.0.0)",
+    "uvicorn (>=0.35.0,<0.36.0)",
+    "fastapi (>=0.116.1,<0.117.0)",
+    "fastmcp (==2.10.5)",
+    "requests (>=2.32.4,<3.0.0)",
+    "httpx (>=0.28.0,<0.29.0)",
+]
+license = {text = "Apache-2.0"}
+keywords = ["poetry", "mcp", "book"]
+
+[project.scripts]
+books-mcp = 'books_mcp.mcp_server:main'
+
+[tool.poetry]
+name = "books-mcp"
+version = "0.1.0"
+description = "A simple Book search mcp server."
+authors = ["uysalserkan <serkan.uysal@sahibinden.com>"]
+readme = "README.md"
+packages = [{include = "books_mcp"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
