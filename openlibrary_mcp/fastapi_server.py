@@ -6,7 +6,7 @@ from typing import Any
 import uvicorn
 from fastapi import FastAPI, HTTPException, Request, Response
 
-from books_mcp.providers import OpenLibraryProvider
+from openlibrary_mcp.providers import OpenLibraryProvider
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -124,7 +124,7 @@ async def search_author(query: str) -> Any:
 async def health_check() -> dict[str, str]:
     """Health check endpoint"""
     logger.debug("💚 Health check requested")
-    return {"status": "healthy", "service": "books-mcp"}
+    return {"status": "healthy", "service": "openlibrary-mcp"}
 
 
 @app.get("/")

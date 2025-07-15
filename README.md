@@ -23,7 +23,7 @@ A book search application that provides access to the OpenLibrary API through bo
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd books_mcp
+cd openlibrary_mcp
 
 # Install dependencies
 poetry install
@@ -40,7 +40,7 @@ poetry shell
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd books_mcp
+cd openlibrary_mcp
 
 # Create virtual environment
 python -m venv venv
@@ -57,7 +57,7 @@ pip install -r requirements.txt
 Start the FastAPI web server:
 
 ```bash
-python -m books_mcp.fastapi_server
+python -m openlibrary_mcp.fastapi_server
 ```
 
 The server will be available at `http://localhost:8000`
@@ -79,13 +79,13 @@ curl "http://localhost:8000/search?query=python+programming"
 The MCP server provides tool-based access for AI assistants:
 
 ```bash
-python -m books_mcp.mcp_server
+python -m openlibrary_mcp.mcp_server
 ```
 
 Or use the installed command:
 
 ```bash
-books-mcp
+openlibrary-mcp
 ```
 
 ## 🤖 Using with Claude Desktop
@@ -97,7 +97,7 @@ This MCP server can be easily integrated with Claude Desktop to provide book sea
 ### 📋 **Prerequisites**
 
 - Claude Desktop application installed
-- This books_mcp project installed and working
+- This openlibrary_mcp project installed and working
 - Poetry or Python environment set up
 
 ### ⚙️ **Setup Instructions**
@@ -123,7 +123,7 @@ Find your Claude Desktop configuration file:
 
 #### 2. **Add Books MCP Server**
 
-Edit the `claude_desktop_config.json` file and add the books-mcp server:
+Edit the `claude_desktop_config.json` file and add the openlibrary-mcp server:
 
 ```json
 {
@@ -132,8 +132,8 @@ Edit the `claude_desktop_config.json` file and add the books-mcp server:
       "command": "uvx",
       "args": [
         "--from",
-        "git+https://github.com/uysalserkan/books-mcp",
-        "books-mcp"
+        "git+https://github.com/uysalserkan/openlibrary-mcp",
+        "openlibrary-mcp"
       ]
     },
     ...
@@ -193,7 +193,7 @@ The MCP server provides one tool:
 
 After setup, you should see:
 
-1. **In Claude Desktop**: The books-mcp server listed in available tools
+1. **In Claude Desktop**: The openlibrary-mcp server listed in available tools
 2. **In Conversations**: Ability to ask Claude to search for books
 3. **In Logs**: MCP server startup messages when Claude Desktop starts
 
@@ -232,7 +232,7 @@ poetry run pre-commit install
 poetry run pre-commit run --all-files
 
 # Run on specific files
-poetry run pre-commit run --files books_mcp/models.py
+poetry run pre-commit run --files openlibrary_mcp/models.py
 
 # Skip hooks for a commit (not recommended)
 git commit -m "message" --no-verify
@@ -280,8 +280,8 @@ disallow_untyped_defs = true
 ## 🏗️ Project Structure
 
 ```
-books_mcp/
-├── books_mcp/           # Main package directory
+openlibrary_mcp/
+├── openlibrary_mcp/           # Main package directory
 │   ├── __init__.py      # Package initialization
 │   ├── fastapi_server.py # FastAPI web server
 │   ├── mcp_server.py    # MCP server implementation
@@ -354,8 +354,8 @@ The application includes comprehensive logging to help with monitoring and debug
 ### 🔧 **Log Format:**
 
 ```
-2025-07-15 16:57:40,733 - books_mcp.providers - INFO - 📚 Starting book search for query: 'python'
-2025-07-15 16:57:40,734 - books_mcp.models - INFO - ⚠️  1/3 books have missing critical fields
+2025-07-15 16:57:40,733 - openlibrary_mcp.providers - INFO - 📚 Starting book search for query: 'python'
+2025-07-15 16:57:40,734 - openlibrary_mcp.models - INFO - ⚠️  1/3 books have missing critical fields
 ```
 
 ### 📝 **Example Log Messages:**
@@ -377,10 +377,10 @@ Run a quick test to verify the installation:
 
 ```bash
 # Test FastAPI server
-python -c "from books_mcp.providers import OpenLibraryProvider; print('✅ OpenLibrary provider works!')"
+python -c "from openlibrary_mcp.providers import OpenLibraryProvider; print('✅ OpenLibrary provider works!')"
 
 # Test models
-python -c "from books_mcp.models import BookDetails, OpenLibrary; print('✅ Models imported successfully!')"
+python -c "from openlibrary_mcp.models import BookDetails, OpenLibrary; print('✅ Models imported successfully!')"
 
 # Test pre-commit hooks
 poetry run pre-commit run --all-files

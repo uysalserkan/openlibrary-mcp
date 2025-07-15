@@ -3,8 +3,8 @@ import sys
 
 from fastmcp import FastMCP
 
-from books_mcp.models import AuthorDetails, OpenLibrary
-from books_mcp.providers import OpenLibraryProvider
+from openlibrary_mcp.models import AuthorDetails, OpenLibrary
+from openlibrary_mcp.providers import OpenLibraryProvider
 
 # Configure logging for Claude Desktop (stderr only)
 logger = logging.getLogger(__name__)
@@ -15,8 +15,8 @@ logging.basicConfig(
 )
 
 app = FastMCP(
-    name="books-mcp",
-    version="0.1.0",
+    name="openlibrary-mcp",
+    version="0.1.1",
 )
 
 

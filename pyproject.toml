@@ -1,5 +1,5 @@
 [project]
-name = "books-mcp"
+name = "openlibrary-mcp"
 version = "0.1.1"
 description = "A simple Book search mcp server."
 authors = [
@@ -19,15 +19,15 @@ license = {text = "Apache-2.0"}
 keywords = ["poetry", "mcp", "book"]
 
 [project.scripts]
-books-mcp = 'books_mcp.mcp_server:main'
+openlibrary-mcp = 'openlibrary_mcp.mcp_server:main'
 
 [tool.poetry]
-name = "books-mcp"
+name = "openlibrary-mcp"
 version = "0.1.1"
 description = "A simple Book search mcp server."
 authors = ["uysalserkan <serkan.uysal@sahibinden.com>"]
 readme = "README.md"
-packages = [{include = "books_mcp"}]
+packages = [{include = "openlibrary_mcp"}]
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.2.0"
@@ -68,7 +68,7 @@ force_grid_wrap = 0
 use_parentheses = true
 ensure_newline_before_comments = true
 line_length = 88
-known_first_party = ["books_mcp"]
+known_first_party = ["openlibrary_mcp"]
 
 [tool.ruff]
 target-version = "py311"

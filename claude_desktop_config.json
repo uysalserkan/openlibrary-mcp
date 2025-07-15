@@ -1,11 +1,11 @@
 {
   "mcpServers": {
-    "books-search": {
+    "openlibrary-search": {
       "command": "uvx",
       "args": [
         "--from",
-        "git+https://github.com/uysalserkan/books-mcp",
-        "books-mcp"
+        "git+https://github.com/uysalserkan/openlibrary-mcp",
+        "openlibrary-mcp"
       ]
     }
   }

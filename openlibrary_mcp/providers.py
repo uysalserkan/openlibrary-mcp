@@ -2,7 +2,7 @@ import logging
 
 import httpx
 
-from books_mcp.models import AuthorDetails, AuthorWorks, OpenLibrary
+from openlibrary_mcp.models import AuthorDetails, AuthorWorks, OpenLibrary
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
