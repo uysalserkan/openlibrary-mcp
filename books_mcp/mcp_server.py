@@ -6,22 +6,36 @@ from fastmcp import FastMCP
 from books_mcp.models import OpenLibrary
 from books_mcp.providers import OpenLibraryProvider
 
-# Configure logging
+# Configure logging for Claude Desktop (stderr only)
 logger = logging.getLogger(__name__)
 logging.basicConfig(
+    stream=sys.stderr,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO,
 )
 
 app = FastMCP(
-    name="OpenLibrary",
+    name="books-mcp",
     version="0.1.0",
 )
 
 
 @app.tool()
 async def search_books(query: str) -> OpenLibrary:
-    """Search for books using OpenLibrary API"""
+    """
+    Search for books using the OpenLibrary API.
+
+    Args:
+        query: Search query for books (e.g., "python programming", "tolkien", "1984")
+
+    Returns:
+        OpenLibrary response containing search results with book details
+
+    Examples:
+        - search_books("python programming")
+        - search_books("lord of the rings tolkien")
+        - search_books("george orwell 1984")
+    """
     logger.info(f"🔍 MCP tool called: search_books with query='{query}'")
 
     try:
@@ -39,11 +53,12 @@ async def search_books(query: str) -> OpenLibrary:
 
 
 def main() -> None:
-    logger.info("🚀 Starting MCP server...")
-    logger.info("📡 Server will be available at: http://127.0.0.1:8000")
-    logger.info("🔧 Transport: SSE (Server-Sent Events)")
+    """Main function to run the MCP server for Claude Desktop integration."""
+    logger.info("🚀 Starting Books MCP server for Claude Desktop...")
+    logger.info("🔧 Using stdio transport for Claude Desktop integration")
 
     try:
+        # FastMCP will automatically use stdio transport which is what Claude Desktop expects
         app.run()
     except KeyboardInterrupt:
         logger.info("⏹️  Server stopped by user")

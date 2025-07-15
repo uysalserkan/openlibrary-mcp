@@ -2,7 +2,7 @@ import logging
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -18,6 +18,8 @@ class BookDetails(BaseModel):
 
     Represents individual book information from the OpenLibrary search results.
     """
+
+    model_config = ConfigDict(extra="ignore", validate_default=True)
 
     author_name: str | None = Field(None, description="Name of the book's author")
     edition_count: int | None = Field(
@@ -130,6 +132,8 @@ class OpenLibrary(BaseModel):
     Represents the complete response from OpenLibrary search API.
     """
 
+    model_config = ConfigDict(extra="ignore", validate_default=True)
+
     num_found: int = Field(description="Total number of books found in the search")
     q: str = Field(description="The search query that was executed")
     docs: list[BookDetails] = Field(
@@ -165,11 +169,3 @@ class OpenLibrary(BaseModel):
         logger.debug(
             f"✅ OpenLibrary model created successfully: {self.num_found} total, {len(self.docs)} processed"
         )
-
-    class Config:
-        """Pydantic model configuration."""
-
-        # Allow extra fields from API response that we don't explicitly model
-        extra = "ignore"
-        # Validate field defaults
-        validate_default = True

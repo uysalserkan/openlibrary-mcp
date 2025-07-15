@@ -88,6 +88,115 @@ Or use the installed command:
 books-mcp
 ```
 
+## 🤖 Using with Claude Desktop
+
+This MCP server can be easily integrated with Claude Desktop to provide book search capabilities directly in your conversations with Claude.
+
+### 📋 **Prerequisites**
+
+- Claude Desktop application installed
+- This books_mcp project installed and working
+- Poetry or Python environment set up
+
+### ⚙️ **Setup Instructions**
+
+#### 1. **Locate Claude Desktop Config**
+
+Find your Claude Desktop configuration file:
+
+**macOS:**
+```bash
+~/Library/Application\ Support/Claude/claude_desktop_config.json
+```
+
+**Windows:**
+```bash
+%APPDATA%\Claude\claude_desktop_config.json
+```
+
+**Linux:**
+```bash
+~/.config/Claude/claude_desktop_config.json
+```
+
+#### 2. **Add Books MCP Server**
+
+Edit the `claude_desktop_config.json` file and add the books-mcp server:
+
+```json
+{
+  "mcpServers": {
+    "books-search": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/uysalserkan/books-mcp",
+        "books-mcp"
+      ]
+    },
+    ...
+  }
+}
+```
+
+#### 3. **Restart Claude Desktop**
+
+Close and restart Claude Desktop for the changes to take effect.
+
+### 🎯 **Using the Book Search Tool**
+
+Once configured, you can use the book search functionality in Claude Desktop:
+
+#### **Example Conversations:**
+
+**You:** "Can you help me find books about Python programming?"
+
+**Claude:** I'll search for Python programming books for you.
+
+*[Claude uses the search_books tool]*
+
+**Claude:** I found several Python programming books:
+
+1. **"Learning Python"** by Mark Lutz (2013)
+   - 5 editions available
+   - Language: English
+
+2. **"Python Crash Course"** by Eric Matthes (2019)
+   - 3 editions available
+   - Language: English
+
+[...more results...]
+
+#### **Other Example Queries:**
+
+- "Find books by J.R.R. Tolkien"
+- "Search for books about machine learning"
+- "Look up George Orwell's 1984"
+- "Find cookbooks published after 2020"
+
+### 🔧 **Tool Details**
+
+The MCP server provides one tool:
+
+**`search_books(query: str)`**
+- **Purpose**: Search for books using OpenLibrary API
+- **Input**: Search query string
+- **Output**: Structured book data including titles, authors, publication years, and more
+- **Examples**:
+  - `"python programming"`
+  - `"tolkien lord of the rings"`
+  - `"george orwell 1984"`
+
+### ✅ **Verification**
+
+After setup, you should see:
+
+1. **In Claude Desktop**: The books-mcp server listed in available tools
+2. **In Conversations**: Ability to ask Claude to search for books
+3. **In Logs**: MCP server startup messages when Claude Desktop starts
+
+The integration allows Claude to seamlessly search for books and provide detailed information about authors, publication years, editions, and more, making it a powerful research and discovery tool!
+
 ## 🔧 Development
 
 ### Pre-commit Hooks
@@ -177,6 +286,7 @@ books_mcp/
 │   ├── models.py        # Pydantic data models
 │   └── providers.py     # OpenLibrary API provider
 ├── .pre-commit-config.yaml # Pre-commit configuration
+├── claude_desktop_config.json # Sample Claude Desktop configuration
 ├── pyproject.toml       # Project configuration
 ├── poetry.lock          # Dependency lock file
 ├── README.md           # This file
