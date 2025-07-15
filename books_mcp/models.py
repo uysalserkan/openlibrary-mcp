@@ -22,6 +22,7 @@ class BookDetails(BaseModel):
     model_config = ConfigDict(extra="ignore", validate_default=True)
 
     author_name: str | None = Field(None, description="Name of the book's author")
+    author_key: str | None = Field(None, description="Key of the book's author")
     edition_count: int | None = Field(
         None, ge=0, description="Number of editions available for this book"
     )
@@ -36,7 +37,7 @@ class BookDetails(BaseModel):
     )
     title: str | None = Field(None, description="Title of the book")
 
-    @field_validator("author_name", mode="before")
+    @field_validator("author_name", "author_key", mode="before")
     def validate_author_fields(cls, v: str | list[str] | None) -> str | None:
         """
         Validate author fields by extracting first element if it's a list.
@@ -169,3 +170,59 @@ class OpenLibrary(BaseModel):
         logger.debug(
             f"✅ OpenLibrary model created successfully: {self.num_found} total, {len(self.docs)} processed"
         )
+
+
+class AuthorWorks(BaseModel):
+    """
+    Author works model for OpenLibrary API response.
+    """
+
+    model_config = ConfigDict(extra="ignore", validate_default=True)
+    author_id: str | None = Field(None, description="Author ID")
+    title: str | None = Field(None, description="Title of the work")
+    subtitle: str | None = Field(None, description="Subtitle of the work")
+
+    def __init__(self, **data: Any) -> None:
+        """Initialize AuthorWorks model with logging"""
+        logger.debug(
+            f"🏗️  Creating AuthorWorks model with {len(data.get('title', []))} title and {len(data.get('subtitle', []))} subtitle"
+        )
+
+        super().__init__(**data)
+
+
+class AuthorDetails(BaseModel):
+    """
+    Author details model for OpenLibrary API response.
+    """
+
+    model_config = ConfigDict(extra="ignore", validate_default=True)
+    key: str | None = Field(None, description="Author key")
+    alternate_names: list[str] | None = Field(
+        None, description="Alternate names for the book"
+    )
+    bio: str | None = Field(None, description="Bio of the author")
+    name: str | None = Field(None, description="Name of the author")
+    birth_date: str | None = Field(None, description="Birth date of the author")
+    death_date: str | None = Field(None, description="Death date of the author")
+    fuller_name: str | None = Field(None, description="Fuller name of the author")
+    works: list[AuthorWorks] | None = Field(None, description="Works by the author")
+    top_subjects: list[str] | None = Field(
+        None, description="Top subjects of the author"
+    )
+
+    def __init__(self, **data: Any) -> None:
+        """Initialize AuthorDetails model with logging"""
+        logger.debug(
+            f"🏗️  Creating AuthorDetails model with {len(data.get('alternate_names', []))} alternate names and {len(data.get('works', []))} works"
+        )
+
+        super().__init__(**data)
+
+    def add_author_works(self, works: list[AuthorWorks]) -> None:
+        """Add author works to the model"""
+        if not self.works:
+            self.works = []
+
+        self.works.extend(works)
+        logger.debug(f"✅ AuthorDetails model updated with {len(works)} works")

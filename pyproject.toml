@@ -1,6 +1,6 @@
 [project]
 name = "books-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "A simple Book search mcp server."
 authors = [
     {name = "uysalserkan",email = "serkan.uysal@sahibinden.com"}
@@ -23,7 +23,7 @@ books-mcp = 'books_mcp.mcp_server:main'
 
 [tool.poetry]
 name = "books-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "A simple Book search mcp server."
 authors = ["uysalserkan <serkan.uysal@sahibinden.com>"]
 readme = "README.md"

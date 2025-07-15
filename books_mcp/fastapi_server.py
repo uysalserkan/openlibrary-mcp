@@ -18,7 +18,7 @@ logging.basicConfig(
 app = FastAPI(
     title="Books MCP FastAPI Server",
     description="Search for books using OpenLibrary API",
-    version="0.1.0",
+    version="0.1.1",
 )
 
 
@@ -74,6 +74,52 @@ async def search_books(query: str) -> Any:
         raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}") from e
 
 
+@app.get("/search_author_with_book_name")
+async def search_author_with_book_name(query: str) -> Any:
+    """Search for author using OpenLibrary API"""
+    logger.info(
+        f"🔍 FastAPI endpoint called: /search_author_with_book_name with query='{query}'"
+    )
+
+    if not query.strip():
+        logger.warning("⚠️  Empty search query provided")
+        raise HTTPException(status_code=400, detail="Query parameter cannot be empty")
+
+    try:
+        provider = OpenLibraryProvider()
+        result = await provider.search_author_with_book_name(query)
+
+        logger.info(f"✅ FastAPI author search completed successfully: {result.name}")
+
+        return result.model_dump()
+
+    except Exception as e:
+        logger.error(f"❌ FastAPI author search failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}") from e
+
+
+@app.get("/search_author")
+async def search_author(query: str) -> Any:
+    """Search for author using OpenLibrary API"""
+    logger.info(f"🔍 FastAPI endpoint called: /search_author with query='{query}'")
+
+    if not query.strip():
+        logger.warning("⚠️  Empty search query provided")
+        raise HTTPException(status_code=400, detail="Query parameter cannot be empty")
+
+    try:
+        provider = OpenLibraryProvider()
+        result = await provider.search_author(query)
+
+        logger.info(f"✅ FastAPI author search completed successfully: {result.name}")
+
+        return result.model_dump()
+
+    except Exception as e:
+        logger.error(f"❌ FastAPI author search failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}") from e
+
+
 @app.get("/health")
 async def health_check() -> dict[str, str]:
     """Health check endpoint"""
@@ -87,8 +133,14 @@ async def root() -> dict[str, Any]:
     logger.debug("📋 Root endpoint accessed")
     return {
         "message": "Books MCP FastAPI Server",
-        "version": "0.1.0",
-        "endpoints": ["/search", "/health", "/docs"],
+        "version": "0.1.1",
+        "endpoints": [
+            "/search",
+            "/search_author_with_book_name",
+            "/search_author",
+            "/health",
+            "/docs",
+        ],
     }
 
 

@@ -3,7 +3,7 @@ import sys
 
 from fastmcp import FastMCP
 
-from books_mcp.models import OpenLibrary
+from books_mcp.models import AuthorDetails, OpenLibrary
 from books_mcp.providers import OpenLibraryProvider
 
 # Configure logging for Claude Desktop (stderr only)
@@ -49,6 +49,46 @@ async def search_books(query: str) -> OpenLibrary:
 
     except Exception as e:
         logger.error(f"❌ MCP search_books failed: {e}")
+        raise
+
+
+@app.tool()
+async def search_author_with_book_name(query: str) -> AuthorDetails:
+    """
+    Search for author with book name using the OpenLibrary API.
+    """
+    logger.info(
+        f"🔍 MCP tool called: search_author_with_book_name with query='{query}'"
+    )
+
+    try:
+        provider = OpenLibraryProvider()
+        result = await provider.search_author_with_book_name(query)
+
+        logger.info(
+            f"✅ MCP search_author_with_book_name completed successfully: {result.name}"
+        )
+        return result
+    except Exception as e:
+        logger.error(f"❌ MCP search_author_with_book_name failed: {e}")
+        raise
+
+
+@app.tool()
+async def search_author(query: str) -> AuthorDetails:
+    """
+    Search for author using the OpenLibrary API.
+    """
+    logger.info(f"🔍 MCP tool called: search_author with query='{query}'")
+
+    try:
+        provider = OpenLibraryProvider()
+        result = await provider.search_author(query)
+
+        logger.info(f"✅ MCP search_author completed successfully: {result.name}")
+        return result
+    except Exception as e:
+        logger.error(f"❌ MCP search_author failed: {e}")
         raise
 
 
