@@ -1,4 +1,4 @@
-# Books MCP
+# OpenLibrary MCP
 
 A book search application that provides access to the OpenLibrary API through both FastAPI and MCP (Model Context Protocol) servers.
 
